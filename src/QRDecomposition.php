@@ -1,6 +1,8 @@
 <?php
 namespace vladkolodka\linearAlgebra;
 
+use vladkolodka\linearAlgebra\Exceptions\MatrixException;
+
 class QRDecomposition {
     /**
      *    Array for internal storage of decomposition.

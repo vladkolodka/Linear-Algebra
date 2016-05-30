@@ -1,20 +1,73 @@
 <?php
 namespace vladkolodka\linearAlgebra;
 
+use vladkolodka\linearAlgebra\Exceptions\MatrixException;
+
 class Matrix {
-    static function hypo($a, $b) {
-        if (abs($a) > abs($b)) {
-            $r = $b / $a;
-            $r = abs($a) * sqrt(1 + $r * $r);
-        } elseif ($b != 0) {
-            $r = $a / $b;
-            $r = abs($b) * sqrt(1 + $r * $r);
+    public static function hypo($a, $b) {
+        $absA = abs($a);
+        $absB = abs($b);
+
+        if ($absA > $absB) {
+            return $absA * sqrt(1.0 + pow($absB / $absA, 2));
+        } elseif ($absB > 0.0) {
+            return $absB * sqrt(1.0 + pow($absA / $absB, 2));
         } else {
-            $r = 0.0;
+            return 0.0;
         }
-        return $r;
+
     }
 
+    /**
+     * sameSign
+     *
+     * @param integer $a
+     * @param integer $b
+     * @return integer
+     */
+    public static function sameSign($a, $b) {
+
+        if ($b >= 0) {
+            $result = abs($a);
+        } else {
+            $result = -abs($a);
+        }
+        return $result;
+    }
+
+
+    /**
+     * @param $matrixA Matrix
+     * @param $matrixB Matrix
+     * @return array
+     */
+    public static function matrixMultiplication($matrixA, $matrixB){
+
+        $rowsA = $matrixA->getRowDimension();
+        $colsA = $matrixA->getColumnDimension();
+
+        $rowsB = $matrixB->getRowDimension();
+        $colsB = $matrixB->getColumnDimension();
+
+        if($colsA == $rowsB){
+            $matrixProduct = new Matrix($rowsA, $colsB);
+            for($i = 0; $i < $rowsA; $i++)
+                for($j = 0; $j < $colsB; $j++)
+                    for($p = 0; $p < $colsA; $p++)
+                        $matrixProduct->matrix[$i][$j] += $matrixA[$i][$p] * $matrixB[$p][$j];
+
+            return $matrixProduct;
+        }
+        return false;
+    }
+
+    public function round($n = 2){
+        for($i = 0; $i < $this->m; $i++){
+            for($j = 0; $j < $this->n; $j++){
+                $this->matrix[$i][$j] = round($this->matrix[$i][$j], $n);
+            }
+        }
+    }
 
     /**
      * Matrix storage
@@ -1024,7 +1077,7 @@ class Matrix {
                     } else {
                         throw new MatrixException(1);
                     }
-                break;
+                    break;
                 case 'array':
                     $M = new Matrix($a);
                     break;

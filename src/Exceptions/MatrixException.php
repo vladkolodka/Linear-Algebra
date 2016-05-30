@@ -1,6 +1,6 @@
 <?php
 
-namespace vladkolodka\linearAlgebra;
+namespace vladkolodka\linearAlgebra\Exceptions;
 
 class MatrixException extends \Exception {
     private $errors = [
