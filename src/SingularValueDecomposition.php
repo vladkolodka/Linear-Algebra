@@ -45,7 +45,7 @@ class SingularValueDecomposition {
         $this->n = $Matrix->getColumnDimension();
 
         $this->U = $Matrix->matrix;
-        $this->V = $Matrix->matrix;
+        $this->V = $Matrix->getMatrix($this->n, $this->n)->matrix;
 
         $eps = 2.22045e-016;
 
