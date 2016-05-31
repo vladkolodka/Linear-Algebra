@@ -187,6 +187,20 @@ class Matrix {
 
             switch ($match) {
                 //A($i0...; $j0...)
+                case 'integer':
+                    list($i0) = $args;
+                    if (!$i0 || $this->m < $i0) throw new MatrixException(2);
+
+                    $R = new Matrix($i0, $i0);
+
+                    for ($i = 0; $i < $i0; $i++){
+                        for ($j = 0; $j < $i0; $j++){
+                            $R->matrix[$i][$j] = $this->matrix[$i][$j];
+                        }
+                    }
+
+                    return $R;
+                    break;
                 case 'integer,integer':
                     list($i0, $j0) = $args;
                     if ($i0 >= 0) {
